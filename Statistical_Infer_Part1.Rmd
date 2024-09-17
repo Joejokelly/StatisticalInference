@@ -1,7 +1,9 @@
 ---
 title: "Statistical_Infer_Part1.Rmd"
 author: "Joe Okelly"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ## Overview 
