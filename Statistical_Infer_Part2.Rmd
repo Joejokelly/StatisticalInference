@@ -1,0 +1,125 @@
+---
+title: "Statistical_Infer_Part2.Rmd"
+author: "Joe Okelly"
+date: "18/09/2024"
+output: 
+  html_document : default
+  pdf_document : default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+   
+## Instructions
+
+1.Load the ToothGrowth data and perform some basic exploratory data analyses
+
+2.Provide a basic summary of the data.
+
+3.Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+4.State your conclusions and the assumptions needed for your conclusions.
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Exploratory data Analysis
+
+First me load the packages, and dataset
+
+```{r}
+library(ggplot2)
+library(knitr)
+library(datasets)
+
+```
+
+Load the ToothGrowth data and perform basic Exploratory Data Analysis
+
+```{r}
+data(ToothGrowth)
+str(ToothGrowth)
+head(ToothGrowth, 4)
+tail(ToothGrowth, 4)
+
+```
+
+Calculate the summary of the data
+
+```{r}
+summary(ToothGrowth)
+
+```
+
+Calculate the mean of the length
+
+
+```{r}
+suppl_mean = split(ToothGrowth$len, ToothGrowth$supp)
+sapply(suppl_mean, mean)
+suppl_mean
+
+```
+
+## Basic Exploratory Analysis, Graph below 
+
+```{r}
+ggplot(aes(x=supp, y=len), data=ToothGrowth) + geom_boxplot(aes(fill=supp))+ 
+  xlab("Supplement Type") +ylab("Tooth length") 
+```
+
+Get the confidence intervals
+```{r}
+unique(ToothGrowth$dose)
+```
+
+
+Unique dose groups are 0.5, 1, 2 
+
+Graph below, shows the relationship between Tooth Length and Dosages
+```{r}
+ ggplot(aes(x = factor(dose), y = len), data = ToothGrowth) + 
+  geom_boxplot(aes(fill = factor(dose))) +
+  ggtitle("Tooth length relation to  Dosage")
+```
+
+Graph below show the tooth Length realation to dosage of 
+each supplement
+
+
+```{r}
+ggplot(aes(x=supp, y=len), data=ToothGrowth) + 
+  geom_boxplot(aes(fill=supp)) + xlab("Supplements") + 
+  ylab("Tooth Length") + facet_grid(~ dose) + 
+  ggtitle("Tooth length relation dosage of each Supplement") 
+```
+
+Hypothesis test defined below :
+
+𝐻0 : tooth length does not depend of different supplements
+𝐻𝑎: tooth length are effected by different supplement
+
+
+```{r}
+t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == .5, ])
+
+t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == 1, ])
+
+t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == 2, ])
+
+```
+
+### Conclusion
+
+we reject the Null Hypothesis, give more explanation on each test, CHATGPT use.
+
