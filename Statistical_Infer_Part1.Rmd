@@ -55,6 +55,9 @@ legend('topright', c("Sample Mean", "Theoretical Mean"),
        lty = c(2,2), 
        col = c(col = "blue", col = "red"))
 ```
+From the above plot we can see the distribution of the means is centered around the mean. 5.002583
+which is very close and overlaps the theoritical mean 1/lambda = 5
+
 
 ## Compare sample Standard Deviation vs Theoretical Standard Deviation
 ```{r}
@@ -66,14 +69,14 @@ sample_standard_deviation
 ```
 
 ## Compare sample Variance vs Theoretical variance
-
+```{r}
 theoretical_variance = (1/lambda)^2/num_exponential
 theoretical_variance
 
 sample_variance = var(mean_exponential)
 sample_variance
  
-
+```
 ## Plot the Graph 
 ```{r}
 hist(mean_exponential, prob=TRUE, col="light green", main="Simulated values vs Theoretical values", breaks=30, xlim=c(2,9), xlab = "Simulation Means")
@@ -87,9 +90,25 @@ legend('topright', c("Simulated Values", "Theoretical Values"),
       bty = "n", lwd = c(2,2), col = c("blue", "red"))
 ```
 
+
+Your output shows a very close match between the theoretical and sample variances:
+
+Theoretical Variance: 0.625
+Sample Variance: 0.6152
+
+This small difference is expected due to the inherent variability in the simulation process. The theoretical variance is derived from the properties of the exponential distribution and assumes an infinite number of samples, while the sample variance is based on the 1000 simulations you ran. The result demonstrates that your sample data closely follows the theoretical expectations, which is a good indicator of a well-behaved simulation.
+
+
 ## Plot the Graph QQNormal
 
 ```{r}
 qqnorm(mean_exponential,main ="Q-Q Plot", col = "blue")
 qqline(mean_exponential, col = "red", lwd = 2)
 ```
+
+qqnorm(mean_exponential): Creates the QQ plot to compare your sample means with a normal distribution.
+qqline(mean_exponential): Adds a reference line that represents the theoretical normal distribution. 
+
+If the sample means are normally distributed, the points should fall close to this line.
+This plot will help you visually assess if the sample means follow a normal distribution, which is expected by the Central Limit Theorem, especially as the sample size increases.
+

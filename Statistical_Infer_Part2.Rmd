@@ -22,17 +22,6 @@ knitr::opts_chunk$set(echo = TRUE)
 4.State your conclusions and the assumptions needed for your conclusions.
 
 
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
 ## Exploratory data Analysis
 
 First me load the packages, and dataset
@@ -75,26 +64,27 @@ suppl_mean
 
 ```{r}
 ggplot(aes(x=supp, y=len), data=ToothGrowth) + geom_boxplot(aes(fill=supp))+ 
-  xlab("Supplement Type") +ylab("Tooth length") 
+  xlab("Supplement Type") +ylab("Tooth length") +
+  theme_minimal()
 ```
 
-Get the confidence intervals
+Above Plot gives you a basic exploratory visualization showing how tooth length varies with supplement type (supp). 
+
 ```{r}
 unique(ToothGrowth$dose)
 ```
 
-
-Unique dose groups are 0.5, 1, 2 
+Unique dose groups are 0.5, 1.0, 2.0 
 
 Graph below, shows the relationship between Tooth Length and Dosages
 ```{r}
  ggplot(aes(x = factor(dose), y = len), data = ToothGrowth) + 
   geom_boxplot(aes(fill = factor(dose))) +
-  ggtitle("Tooth length relation to  Dosage")
+  ggtitle("Tooth length relation to  Dosage") +
+  theme_minimal()
 ```
 
-Graph below show the tooth Length realation to dosage of 
-each supplement
+The above graph show the relationship between tooth length and dosage in the ToothGrowth dataset
 
 
 ```{r}
@@ -104,6 +94,8 @@ ggplot(aes(x=supp, y=len), data=ToothGrowth) +
   ggtitle("Tooth length relation dosage of each Supplement") 
 ```
 
+Graph above show the tooth Length relation to dosage of each supplement
+
 Hypothesis test defined below :
 
 𝐻0 : tooth length does not depend of different supplements
@@ -111,15 +103,46 @@ Hypothesis test defined below :
 
 
 ```{r}
-t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == .5, ])
+#t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == .5, ])
+# For dose = 0.5
+test_dose_0.5 <- t.test(len ~ supp, data = ToothGrowth[ToothGrowth$dose == 0.5, ])
+print("t-test for dose 0.5:")
+test_dose_0.5
 
-t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == 1, ])
 
-t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == 2, ])
+#t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == 1, ])
+# For dose = 1
+test_dose_1 <- t.test(len ~ supp, data = ToothGrowth[ToothGrowth$dose == 1, ])
+print("t-test for dose 1:")
+test_dose_1
+
+
+#t.test(len ~ supp, ToothGrowth[ToothGrowth$dose == 2, ])
+# For dose = 2
+test_dose_2 <- t.test(len ~ supp, data = ToothGrowth[ToothGrowth$dose == 2, ])
+print("t-test for dose 2:")
+test_dose_2
 
 ```
 
-### Conclusion
+### Interpretation of Results:
+For each t-test, you’ll get:
 
-we reject the Null Hypothesis, give more explanation on each test, CHATGPT use.
+t-value: The test statistic.
+p-value: Determines whether to reject the null hypothesis. If the p-value is less than your significance level (e.g., 0.05), you reject 𝐻0 
+  and conclude that tooth length is significantly different between supplements for that dose.
+  
+Confidence Interval: The range of values that likely contains the true difference in means.
+
+What to Look For:
+Low p-values (p < 0.05): Suggest that the tooth length does depend on the supplement type.
+High p-values (p > 0.05): Suggest that there is no significant difference in tooth length between the supplements.
+
+## Conclusion
+
+Since the p-value < 0.05 
+Reject H0
+This means that there is significant evidence to conclude that the tooth length differs based on the type of supplement (OJ vs VC) for that particular dose.
+
+
 

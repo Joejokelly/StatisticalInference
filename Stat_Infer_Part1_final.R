@@ -49,14 +49,12 @@ sample_variance
 hist(mean_exponential, prob=TRUE, col="light green", main="Simulated values vs Theoretical values", breaks=30, xlim=c(2,9), xlab = "Simulation Means")
 lines(density(mean_exponential), lwd=2, col="blue")
 
-# Normal distribution line creation
-x <- seq(min(mean_exponential), max(mean_exponential), length=2*n)
-y <- dnorm(x, mean=1/lambda, sd=sqrt(((1/lambda)/sqrt(n))^2))
-#lines(x, y, pch=22, col="black", lwd=2, lty = 2)
+x <- seq(min(mean_exponential), max(mean_exponential), length=2*num_exponential)
+y <- dnorm(x, mean=1/lambda, sd=sqrt(((1/lambda)/sqrt(num_exponential))^2))
 lines(x, y, col="red", lwd=2, lty = 2)
 
 legend('topright', c("Simulated Values", "Theoretical Values"), 
-      bty = "n", lwd = c(2,2), col = c("blue", "red"))
+       bty = "n", lwd = c(2,2), col = c("blue", "red"))
 
 
 qqnorm(mean_exponential,main ="Q-Q Plot", col = "blue")
